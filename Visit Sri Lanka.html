@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Sri Lanka</title>
+    <link rel="stylesheet" href="Visit Sri Lanka.css">
+<script src="Visit Sri Lanka.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn {
+            background: #008000;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #005500;
+        }
+        .welcome-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .post-container {
+            margin: 20px 10%;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .post:last-child {
+            border-bottom: none;
+        }
+        .post-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .post-content {
+            margin-top: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="srilanka.jpg" alt="Visit Sri Lanka Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#visit">Visit</a></li>
+                <li><a href="#signin">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sections -->
+    <section id="home">
+        <h1>Welcome to Visit Sri Lanka</h1>
+        <p>Explore the beauty, culture, and heritage of Sri Lanka.</p>
+        <img src="welcome-image.jpg" alt="Beautiful Sri Lankan Landscape" class="welcome-image">
+    </section>
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p>Discover Sri Lanka’s breathtaking landscapes, ancient cities, and unique culture. Our goal is to help you experience the hidden gems of this tropical paradise, from stunning beaches to lush tea plantations.</p>
+        <p>Sri Lanka is not just a destination; it's a journey through time and nature. Whether you're an adventure seeker or someone looking to unwind, we've got you covered.</p>
+    </section>
+
+    <section id="products">
+        <h2>Products</h2>
+        <p>Authentic Sri Lankan products at the best prices. Browse through a wide range of spices, hand-woven textiles, and artisanal crafts that reflect the island's rich heritage.</p>
+    </section>
+
+    <section id="visit">
+        <h2>Visit Sri Lanka</h2>
+        <p>Travel guides, must-visit destinations, and hidden gems. Climb the ancient rock fortress of Sigiriya, surf the waves of Arugam Bay, or relax on the golden beaches of Mirissa.</p>
+        <p>Don't miss the chance to witness the famous Kandy Esala Perahera festival and taste authentic Sri Lankan cuisine.</p>
+    </section>
+
+    <section id="signin">
+        <h2>Sign In</h2>
+        <form>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Sign In</button>
+        </form>
+    </section>
+
+    <!-- Write a Post Button -->
+    <section id="write-post">
+        <button class="btn" id="openModal">Write a Post</button>
+    </section>
+
+    <!-- Post Display Section -->
+    <section id="post-display">
+        <h2>Recent Posts</h2>
+        <div class="post-container" id="postContainer">
+            <!-- Posts will be inserted here dynamically -->
+        </div>
+    </section>
+
+    <!-- Popup Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create a Post</h2>
+            <form id="postForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" required><br><br>
+                <label for="content">Content:</label><br>
+                <textarea id="content" rows="6" required></textarea><br><br>
+                <button type="submit" class="btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Popup Modal Logic
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("openModal");
+        const span = document.getElementsByClassName("close")[0];
+        const postForm = document.getElementById("postForm");
+        const postContainer = document.getElementById("postContainer");
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Add Post Logic
+        postForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+
+            const post = document.createElement("div");
+            post.classList.add("post");
+            post.innerHTML = `<div class="post-title">${title}</div><div class="post-content">${content}</div>`;
+            postContainer.appendChild(post);
+
+            // Clear form and close modal
+            postForm.reset();
+            modal.style.display = "none";
+        });
+    </script>
+</body>
+</html>
